@@ -75,6 +75,8 @@ def to_numpy(x, args=None, kwargs=None):
 
     Parameters:
     - x: Native callable(s) to transpile.
+    - args: Arguments to pass to the function.
+    - kwargs: Keyword arguments to pass to the function.
 
     Returns:
     - A transpiled Graph or a non-initialized LazyGraph. If the object is a native trainable module,
@@ -90,6 +92,8 @@ def to_paddle(x, args=None, kwargs=None):
 
     Parameters:
     - x: Native callable(s) to transpile.
+    - args: Arguments to pass to the function.
+    - kwargs: Keyword arguments to pass to the function.
 
     Returns:
     - A transpiled Graph or a non-initialized LazyGraph. If the object is a native trainable module,
