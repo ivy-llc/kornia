@@ -83,7 +83,9 @@ def equalize(probability: float, _: int) -> OperationBase:
 
 def solarize(probability: float, magnitude: int) -> OperationBase:
     magnitudes = linspace(0, 255, 11) / 255.0
-    return Solarize(None, probability, magnitude_range=(magnitudes[magnitude].item(), magnitudes[magnitude + 1].item()))
+    return Solarize(
+        None, probability, magnitude_range=(magnitudes[magnitude].item(), magnitudes[magnitude + 1].item())
+    )
 
 
 def posterize(probability: float, magnitude: int) -> OperationBase:
@@ -95,7 +97,9 @@ def posterize(probability: float, magnitude: int) -> OperationBase:
 
 def contrast(probability: float, magnitude: int) -> OperationBase:
     magnitudes = linspace(0.1, 1.9, 11)
-    return Contrast(None, probability, magnitude_range=(magnitudes[magnitude].item(), magnitudes[magnitude + 1].item()))
+    return Contrast(
+        None, probability, magnitude_range=(magnitudes[magnitude].item(), magnitudes[magnitude + 1].item())
+    )
 
 
 def brightness(probability: float, magnitude: int) -> OperationBase:
@@ -114,4 +118,6 @@ def sharpness(probability: float, magnitude: int) -> OperationBase:
 
 def color(probability: float, magnitude: int) -> OperationBase:
     magnitudes = linspace(0.1, 1.9, 11)
-    return Saturate(None, probability, magnitude_range=(magnitudes[magnitude].item(), magnitudes[magnitude + 1].item()))
+    return Saturate(
+        None, probability, magnitude_range=(magnitudes[magnitude].item(), magnitudes[magnitude + 1].item())
+    )
