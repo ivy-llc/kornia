@@ -1,2 +1,3 @@
 packaging
 torch>=1.9.1
+ivy
