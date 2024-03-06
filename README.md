@@ -117,7 +117,7 @@ Run our Jupyter notebooks [tutorials](https://kornia.github.io/tutorials) to lea
 - :white_check_mark: [Image Matching](https://kornia.readthedocs.io/en/latest/applications/image_matching.html) Integrated to [Huggingface Spaces](https://huggingface.co/spaces). See [Gradio Web Demo](https://huggingface.co/spaces/akhaliq/Kornia-LoFTR).
 - :white_check_mark: [Face Detection](https://kornia.readthedocs.io/en/latest/applications/face_detection.html) Integrated to [Huggingface Spaces](https://huggingface.co/spaces). See [Gradio Web Demo](https://huggingface.co/spaces/frapochetti/blurry-faces).
 
-#### Multi-framework support
+**Multi-framework support**
 
 You can now use kornia with other frameworks such as [TensorFlow](https://www.tensorflow.org/), [JAX](https://jax.readthedocs.io/en/latest/index.html) and [NumPy](https://numpy.org/) using [Ivy](https://unify.ai/ivy). Here's how to convert the kornia API to TensorFlow,
 ```
