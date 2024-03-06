@@ -30,7 +30,7 @@ Ready to use with state-of-the art Deep Learning models:
 Multi-Framework support
 -----------------------
 
-Kornia can now be used with frameworks other than PyTorch such as `TensorFlow <https://www.tensorflow.org/>`, 
+Kornia can now be used with frameworks other than PyTorch such as `TensorFlow <https://www.tensorflow.org/>`_, 
 `JAX <https://jax.readthedocs.io/en/latest/index.html>`_ and `Numpy <https://numpy.org/>`_ using `Ivy <https://unify.ai/ivy>`_. 
 
 In order to use :code:`ivy` to transpile :code:`kornia`, there are a few functions added to the :code:`kornia.transpile` API
@@ -49,7 +49,6 @@ Here's an example of using :code:`kornia` with :code:`tf`
    >>> rgb_image = tf.random.normal((1, 3, 224, 224))
    >>> gray_image = kornia_tf.color.rgb_to_grayscale(rgb_image)
 
-Here are the milestones for the framework team until 11/03/24
 
 :code:`kornia.transpiler.to_jax`, :code:`kornia.transpiler.to_numpy` and :code:`kornia.transpiler.to_ivy` can be used in a 
 similar manner. In order to learn more about Ivy, we recommend you to go through `Get Started <https://unify.ai/docs/ivy/overview/get_started.html>`_ and `Quickstart <https://unify.ai/docs/ivy/demos/quickstart.html>`_.
