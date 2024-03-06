@@ -124,7 +124,7 @@ You can now use kornia with other frameworks such as [TensorFlow](https://www.te
 import kornia
 tf_kornia = kornia.transpiler.to_tensorflow()
 ```
-More examples are available in the docs
+
 
 ## Cite
 
