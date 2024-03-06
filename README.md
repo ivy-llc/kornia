@@ -119,9 +119,7 @@ Run our Jupyter notebooks [tutorials](https://kornia.github.io/tutorials) to lea
 
 ### Multi-framework support
 
-You can now use kornia with other frameworks such as [TensorFlow](https://www.tensorflow.org/), [JAX](https://jax.readthedocs.io/en/latest/index.html) and [NumPy](https://numpy.org/) using [Ivy](https://unify.ai/ivy).
-
-Here's an example
+You can now use kornia with other frameworks such as [TensorFlow](https://www.tensorflow.org/), [JAX](https://jax.readthedocs.io/en/latest/index.html) and [NumPy](https://numpy.org/) using [Ivy](https://unify.ai/ivy). Here's an example,
 ```
 import kornia
 tf_kornia = kornia.transpiler.to_tensorflow()
