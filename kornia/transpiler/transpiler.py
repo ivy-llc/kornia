@@ -26,7 +26,7 @@ from kornia import (
 
 
 def to_ivy():
-    return ivy.transpile(kornia, source="torch", to="ivy")
+    return ivy.unify(kornia, source="torch")
 
 
 def to_jax():
