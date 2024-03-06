@@ -33,7 +33,7 @@ English | [简体中文](README_zh-CN.md)
 <a href="https://www.producthunt.com/posts/kornia?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-kornia" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=306439&theme=light" alt="Kornia - Computer vision library for deep learning | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 <p align="center">
-Multi-framework support with <img class="only-dark" style="width: 100px; height: 40px;" width="100" height="40" src="https://raw.githubusercontent.com/unifyai/unifyai.github.io/main/img/externally_linked/logo_dark.png#gh-dark-mode-only"><img class="only-light" style="width: 100px; height: 40px;" width="100" height="40" src="https://raw.githubusercontent.com/unifyai/unifyai.github.io/main/img/externally_linked/logo.png?raw=true#gh-light-mode-only"/>
+Multi-framework support with <img align="bottom" class="only-dark" style="width: 100px; height: 40px;" width="100" height="40" src="https://raw.githubusercontent.com/unifyai/unifyai.github.io/main/img/externally_linked/logo_dark.png#gh-dark-mode-only"><img align="bottom" class="only-light" style="width: 100px; height: 40px;" width="100" height="40" src="https://raw.githubusercontent.com/unifyai/unifyai.github.io/main/img/externally_linked/logo.png?raw=true#gh-light-mode-only"/>
 
 </p>
 </div>
