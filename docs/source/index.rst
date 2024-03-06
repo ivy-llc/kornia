@@ -53,6 +53,7 @@ Here are the milestones for the framework team until 11/03/24
 
 :code:`kornia.transpiler.to_jax`, :code:`kornia.transpiler.to_numpy` and :code:`kornia.transpiler.to_ivy` can be used in a 
 similar manner. In order to learn more about Ivy, we recommend you to go through `Get Started <https://unify.ai/docs/ivy/overview/get_started.html>`_ and `Quickstart <https://unify.ai/docs/ivy/demos/quickstart.html>`_.
+If there are any issues/bugs, feel free to report them on the `ivy <https://github.com/unifyai/ivy>`_ repository!
 
 Join the community
 ------------------
