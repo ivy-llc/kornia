@@ -21,10 +21,6 @@ English | [简体中文](README_zh-CN.md)
 [![Twitter](https://img.shields.io/twitter/follow/kornia_foss?style=social)](https://twitter.com/kornia_foss)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENCE)
 
-<p align="center">
-Multi-framework support using <a href="https://github.com/ivy-llc/ivy" target="_blank"><img align="center" class="only-light" style="width: 100px; height: 40px;" width="100" height="40" src="https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true"/></a>
-</p>
-
 </div>
 
 **Kornia** is a differentiable computer vision library for [PyTorch](https://pytorch.org).
@@ -71,11 +67,16 @@ Kornia is an open-source project that is developed and maintained by volunteers.
 
 ## Multi-framework support
 
-You can now use kornia with other frameworks such as [TensorFlow](https://www.tensorflow.org/), [JAX](https://jax.readthedocs.io/en/latest/index.html) and [NumPy](https://numpy.org/) using [Ivy](https://github.com/ivy-llc/ivy). Here's how to convert the kornia API to TensorFlow,
+<p align="center">
+Powered by <a href="https://github.com/ivy-llc/ivy" target="_blank"><img align="center" class="only-light" style="width: 100px; height: 40px;" width="100" height="40" src="https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true"/></a>
+</p>
+
+You can now use kornia in frameworks other than [PyTorch](https://pytorch.org), such as [TensorFlow](https://www.tensorflow.org/), [JAX](https://jax.readthedocs.io/en/latest/index.html) and [NumPy](https://numpy.org/) using [Ivy](https://github.com/ivy-llc/ivy).
 ```
 import kornia
 tf_kornia = kornia.to_tensorflow()
 ```
+[Read more about multi-framework support](docs/source/index.rst#Multi-Framework-Support)
 
 ## Cite
 
