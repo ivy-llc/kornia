@@ -22,7 +22,7 @@ English | [简体中文](README_zh-CN.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENCE)
 
 <p align="center">
-Multi-framework support using <a href="https://github.com/ivy-llc/ivy" target="_blank"><img align="center" class="only-dark" style="width: 100px; height: 40px;" width="100" height="40" src="https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_dark_long.png?raw=true#gh-dark-mode-only"><img align="center" class="only-light" style="width: 100px; height: 40px;" width="100" height="40" src="https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true#gh-light-mode-only"/></a>
+Multi-framework support using <a href="https://github.com/ivy-llc/ivy" target="_blank"><img align="center" class="only-light" style="width: 100px; height: 40px;" width="100" height="40" src="https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true"/></a>
 </p>
 
 </div>
