@@ -30,7 +30,7 @@ Multi-Framework support
 -----------------------
 
 Kornia can now be used with frameworks other than PyTorch such as `TensorFlow <https://www.tensorflow.org/>`_, 
-`JAX <https://jax.readthedocs.io/en/latest/index.html>`_ and `Numpy <https://numpy.org/>`_ using `Ivy <https://ivy.dev>`_. 
+`JAX <https://jax.readthedocs.io/en/latest/index.html>`_ and `Numpy <https://numpy.org/>`_ using `Ivy <https://github.com/ivy-llc/ivy>`_. 
 
 In order to use :code:`ivy` to transpile :code:`kornia`, there are a few functions added to the :code:`kornia.transpile` API
 1. :code:`kornia.to_tensorflow`

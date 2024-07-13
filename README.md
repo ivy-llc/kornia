@@ -71,7 +71,7 @@ Kornia is an open-source project that is developed and maintained by volunteers.
 
 ## Multi-framework support
 
-You can now use kornia with other frameworks such as [TensorFlow](https://www.tensorflow.org/), [JAX](https://jax.readthedocs.io/en/latest/index.html) and [NumPy](https://numpy.org/) using [Ivy](https://ivy.dev). Here's how to convert the kornia API to TensorFlow,
+You can now use kornia with other frameworks such as [TensorFlow](https://www.tensorflow.org/), [JAX](https://jax.readthedocs.io/en/latest/index.html) and [NumPy](https://numpy.org/) using [Ivy](https://github.com/ivy-llc/ivy). Here's how to convert the kornia API to TensorFlow,
 ```
 import kornia
 tf_kornia = kornia.to_tensorflow()

@@ -5,7 +5,7 @@ import kornia
 def to_jax(backend_compile: bool = False):
     """Convert Kornia to JAX.
 
-    Transpiles the Kornia library to JAX using [ivy](https://ivy.dev). The transpilation process 
+    Transpiles the Kornia library to JAX using [ivy](https://github.com/ivy-llc/ivy). The transpilation process 
     occurs lazily, so the transpilation on a given kornia function will only occur when it's called 
     for the first time. This will make the initial call of any function in the transpiled library 
     slower, but subsequent calls should be as fast as expected.
@@ -34,7 +34,7 @@ def to_jax(backend_compile: bool = False):
 def to_numpy():
     """Convert Kornia to NumPy.
 
-    Transpiles the Kornia library to NumPy using [ivy](https://ivy.dev). The transpilation process 
+    Transpiles the Kornia library to NumPy using [ivy](https://github.com/ivy-llc/ivy). The transpilation process 
     occurs lazily, so the transpilation on a given kornia function will only occur when it's called 
     for the first time. This will make the initial call of any function in the transpiled library 
     slower, but subsequent calls should be as fast as expected.
@@ -59,7 +59,7 @@ def to_numpy():
 def to_tensorflow(backend_compile: bool = False):
     """Convert Kornia to TensorFlow.
 
-    Transpiles the Kornia library to TensorFlow using [ivy](https://ivy.dev). The transpilation process 
+    Transpiles the Kornia library to TensorFlow using [ivy](https://github.com/ivy-llc/ivy). The transpilation process 
     occurs lazily, so the transpilation on a given kornia function will only occur when it's called 
     for the first time. This will make the initial call of any function in the transpiled library 
     slower, but subsequent calls should be as fast as expected.
