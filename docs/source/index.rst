@@ -26,7 +26,7 @@ Ready to use with state-of-the art Deep Learning models:
    >>> logits = classifier(img)    # BxN
    >>> scores = logits.argmax(-1)  # B
 
-Multi-framework Support
+Multi-framework support
 -----------------------
 
 You can now use Kornia with `NumPy <https://numpy.org/>`_, `TensorFlow <https://www.tensorflow.org/>`_, and `JAX <https://jax.readthedocs.io/en/latest/index.html>`_.
@@ -35,8 +35,6 @@ You can now use Kornia with `NumPy <https://numpy.org/>`_, `TensorFlow <https://
 
   >>> import kornia
   >>> tf_kornia = kornia.to_tensorflow()
-
-`Using Kornia with other frameworks <get-started/multi-framework-support.rst>`_
 
 .. image:: https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true
    :align: center
