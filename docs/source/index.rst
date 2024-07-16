@@ -36,9 +36,12 @@ You can now use Kornia with `NumPy <https://numpy.org/>`_, `TensorFlow <https://
   >>> import kornia
   >>> tf_kornia = kornia.to_tensorflow()
 
-.. image:: https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true
-   :align: center
-   :width: 100px
+.. raw:: html
+
+   <p align="center">
+   Powered by  <a href="https://github.com/ivy-llc/ivy" target="_blank"><img align="center" class="only-light" style="width: 85px; height: 35px;" width="85" height="35" src="https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true"/></a>
+   </p>
+
 
 Join the community
 ------------------
