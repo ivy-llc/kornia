@@ -76,7 +76,7 @@ tf_kornia = kornia.to_tensorflow()
 [Using Kornia with other frameworks](docs/source/get-started/multi-framework-support.rst)
 
 <p align="center">
-Powered by <a href="https://github.com/ivy-llc/ivy" target="_blank"><img align="center" class="only-light" style="width: 75px; height: auto;" width="100" height="40" src="https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true"/></a>
+Powered by <a href="https://github.com/ivy-llc/ivy" target="_blank"><img align="center" class="only-light" style="width: 75px; height: 30px;" width="75" height="30" src="https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true"/></a>
 </p>
 
 ## Cite
