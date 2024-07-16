@@ -1,6 +1,14 @@
-.. image:: https://github.com/ivy-llc/ivy-llc.github.io/blob/5975ce28c2f4892a85807d09a923e3c34e8a7617/src/assets/full_logo_light_long.png?raw=true
-   :align: center
-   :width: 300px
+.. raw:: html
+
+   <div style="display: block;" align="center">
+       <img class="only-dark" width="30%" src="https://raw.githubusercontent.com/ivy-llc/ivy-llc.github.io/main/src/assets/full_logo_dark_long.png#gh-dark-mode-only"/>
+   </div>
+
+.. raw:: html
+
+   <div style="display: block;" align="center">
+       <img class="only-light" width="30%" src="https://raw.githubusercontent.com/ivy-llc/ivy-llc.github.io/main/src/assets/full_logo_light_long.png#gh-light-mode-only"/>
+   </div>
 
 Multi-Framework Support
 =======================
