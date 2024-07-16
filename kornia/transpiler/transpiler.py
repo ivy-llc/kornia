@@ -1,5 +1,6 @@
 import ivy
 import kornia
+import warnings
 
 
 def to_jax(backend_compile: bool = False):
@@ -31,7 +32,7 @@ def to_jax(backend_compile: bool = False):
     )
 
 
-def to_numpy():
+def to_numpy(backend_compile: bool = False):
     """Convert Kornia to NumPy.
 
     Transpiles the Kornia library to NumPy using [ivy](https://github.com/ivy-llc/ivy). The transpilation process 
@@ -49,6 +50,9 @@ def to_numpy():
         >>> input = np.random.normal(size=(2, 3, 4, 5))
         >>> gray = np_kornia.color.gray.rgb_to_grayscale(input)
     """
+    if backend_compile:
+        warnings.warn("NumPy has no backend compiler, defaulting to `backend_compile=False`")
+
     return ivy.transpile(
         kornia,
         source="torch",
