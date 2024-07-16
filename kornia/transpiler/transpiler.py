@@ -23,6 +23,11 @@ def to_jax(backend_compile: bool = False):
         >>> import jax
         >>> input = jax.random.normal(jax.random.key(42), shape=(2, 3, 4, 5))
         >>> gray = jax_kornia.color.gray.rgb_to_grayscale(input)
+
+    Note:
+        The transpiler used in this function traces a computational graph, which may remove dyamic
+        control flow elements from transpiled Kornia functions. Be mindful of this when using transpiled
+        functions that are fundamentally reliant on dynamic control flow.
     """
     return ivy.transpile(
         kornia,
@@ -49,6 +54,11 @@ def to_numpy(backend_compile: bool = False):
         >>> import numpy as np
         >>> input = np.random.normal(size=(2, 3, 4, 5))
         >>> gray = np_kornia.color.gray.rgb_to_grayscale(input)
+
+    Note:
+        The transpiler used in this function traces a computational graph, which may remove dyamic
+        control flow elements from transpiled Kornia functions. Be mindful of this when using transpiled
+        functions that are fundamentally reliant on dynamic control flow.
     """
     if backend_compile:
         warnings.warn("NumPy has no backend compiler, defaulting to `backend_compile=False`")
@@ -80,6 +90,11 @@ def to_tensorflow(backend_compile: bool = False):
         >>> import tensorflow as tf
         >>> input = tf.random.normal((2, 3, 4, 5))
         >>> gray = tf_kornia.color.gray.rgb_to_grayscale(input)
+
+    Note:
+        The transpiler used in this function traces a computational graph, which may remove dyamic
+        control flow elements from transpiled Kornia functions. Be mindful of this when using transpiled
+        functions that are fundamentally reliant on dynamic control flow.
     """
     return ivy.transpile(
         kornia,
