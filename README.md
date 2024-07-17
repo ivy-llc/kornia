@@ -66,6 +66,26 @@ Kornia is an open-source project that is developed and maintained by volunteers.
 
 </details>
 
+## Multi-framework support
+
+You can now use Kornia with [NumPy](https://numpy.org/), [TensorFlow](https://www.tensorflow.org/), and [JAX](https://jax.readthedocs.io/en/latest/index.html). Refer to [Using Kornia with other frameworks](docs/source/get-started/multi-framework-support.rst) for more details.
+
+```python
+import kornia
+tf_kornia = kornia.to_tensorflow()
+```
+
+<p align="center">
+  Powered by 
+  <div class="only-dark" style="display: block;" align="center">
+      <img class="only-dark" width="15%" src="https://raw.githubusercontent.com/ivy-llc/ivy-llc.github.io/main/src/assets/full_logo_dark_long.svg#gh-dark-mode-only"/>
+  </div>
+  <div class="only-light" style="display: block;" align="center">
+      <img class="only-light" width="15%" src="https://raw.githubusercontent.com/ivy-llc/ivy-llc.github.io/main/src/assets/full_logo_light_long.svg#gh-light-mode-only"/>
+  </div>
+</p>
+
+
 ## Cite
 
 If you are using kornia in your research-related documents, it is recommended that you cite the paper. See more in [CITATION](./CITATION.md).
