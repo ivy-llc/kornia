@@ -40,11 +40,8 @@ You can now use Kornia with `NumPy <https://numpy.org/>`_, `TensorFlow <https://
 
    <p align="center">
      Powered by 
-     <div class="only-dark" style="display: block;" align="center">
-         <img class="only-dark" width="15%" src="https://raw.githubusercontent.com/ivy-llc/ivy-llc.github.io/main/src/assets/full_logo_dark_long.svg#gh-dark-mode-only"/>
-     </div>
-     <div class="only-light" style="display: block;" align="center">
-         <img class="only-light" width="15%" src="https://raw.githubusercontent.com/ivy-llc/ivy-llc.github.io/main/src/assets/full_logo_light_long.svg#gh-light-mode-only"/>
+     <div class="dark-light" style="display: block;" align="center">
+         <img class="dark-light" width="15%" src="https://raw.githubusercontent.com/ivy-llc/assets/refs/heads/main/assets/logos/ivy-long.svg"/>
      </div>
    </p>
 
