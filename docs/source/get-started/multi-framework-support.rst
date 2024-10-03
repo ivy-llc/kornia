@@ -107,10 +107,14 @@ Kornia can be used with JAX and NumPy in the same way:
 Limitations
 -----------
 
-The primary limitation of ivy's transpiler in its current form is that it uses a function tracing approach, 
-where a computational graph is extracted from the function to allow transpilation. In most cases this works great, 
-but it often doesn't allow dynamic control flow (`if` statements, `while` loops, etc) to be correctly represented in 
-the graph - which can cause some kornia functions to not behave as expected when transpiled.
+#.
+    Converting Kornia to TensorFlow or JAX works for both functions and classes, but converting to NumPy only supports
+    functions.
+
+#.
+    Compatibility with native compilers (*jax.jit* and *tf.function*) is somewhat limited with transpiled versions of Kornia,
+    particularly compared with *torch.compile* on standard Kornia. Improving compatibility with these is one of the key areas of
+    focus for the current development of Ivy.
 
 
 From the Ivy Team
