@@ -14,11 +14,11 @@ thanks to an integration with `Ivy <https://github.com/ivy-llc/ivy>`_.
 
 This can be accomplished using the following functions, which are now part of the kornia api:
 
-* :code:`kornia.to_tensorflow`
+* :code:`kornia.to_tensorflow()`
 
-* :code:`kornia.to_jax`
+* :code:`kornia.to_jax()`
 
-* :code:`kornia.to_numpy`
+* :code:`kornia.to_numpy()`
 
 Here's an example of using kornia with TensorFlow:
 
@@ -36,8 +36,8 @@ So what's happening here? Let's break it down.
 
 #. Transpiling kornia to TensorFlow
 
-    This line lazily transpiles every function in kornia to TensorFlow. Because the transpilation happens lazily, no function will be
-    transpiled until it is actually called.
+    This line lazily transpiles everything in the kornia api to TensorFlow, and creates a new module for this transpiled version of kornia.
+    Because the transpilation happens lazily, no function or class will be transpiled until it's actually called.
 
     .. code-block:: python
 
@@ -45,8 +45,8 @@ So what's happening here? Let's break it down.
 
 #. Calling a TF kornia function
 
-    We can now call any kornia function with TF arguments. However, this function will be very slow relative to the original function - 
-    as the function is being transpiled during this step.
+    We can now call any kornia function (or class) with TF arguments. However, this function will be very slow relative to
+    the original function - as the function is being transpiled during this step.
 
     .. code-block:: python
 
@@ -56,28 +56,18 @@ So what's happening here? Let's break it down.
 #. Subsequent function calls
 
     The good news is any calls of the function after the initial call will be much faster, as it has already been transpiled, 
-    and should approximately match the speed of the torch function.
+    and should approximately match the speed of the original kornia function.
 
     .. code-block:: python
 
         gray_image = tf_kornia.color.rgb_to_grayscale(rgb_image)  # fast
 
-#. Backend compilation
+#. Transpilations in different Python sessions
 
-    The transpiled functions can be made even faster by using a backend compiler (`tf.function` or `jax.jit`).
-    This can be done simply by setting `backend_compile=True`. However, it should be noted that not all transpiled
-    functions are compatible with backend compilation, and backend compilation is not available with NumPy.
-
-    .. code-block:: python
-
-        import kornia
-        import tensorflow as tf
-
-        tf_kornia = kornia.to_tensorflow(backend_compile=True)
-
-        rgb_image = tf.random.normal((1, 3, 224, 224))
-        gray_image = tf_kornia.color.rgb_to_grayscale(rgb_image)  # slow
-        gray_image = tf_kornia.color.rgb_to_grayscale(rgb_image)  # fast
+    You may be wondering if you'll have to wait for these long initial transpilations to take place each time you start a
+    new Python session? The good news is that when a transpilation occurs, Ivy will save the generated source code in the
+    local directory, so if the same transpilation is ever attempted again from within the same directory, it will be
+    immediately retrieved and ready to use.
 
 
 Kornia can be used with JAX and NumPy in the same way:
@@ -107,14 +97,11 @@ Kornia can be used with JAX and NumPy in the same way:
 Limitations
 -----------
 
-#.
-    Converting Kornia to TensorFlow or JAX works for both functions and classes, but converting to NumPy only supports
-    functions.
+* Converting Kornia to TensorFlow or JAX works for both functions and classes, but converting to NumPy only supports functions.
 
-#.
-    Compatibility with native compilers (*jax.jit* and *tf.function*) is somewhat limited with transpiled versions of Kornia,
-    particularly compared with *torch.compile* on standard Kornia. Improving compatibility with these is one of the key areas of
-    focus for the current development of Ivy.
+* Compatibility with native compilers (*jax.jit* and *tf.function*) is somewhat limited with transpiled versions of Kornia,
+  particularly compared with *torch.compile* on standard Kornia. Improving compatibility with these is one of the key areas of
+  focus for the current development of Ivy.
 
 
 From the Ivy Team
