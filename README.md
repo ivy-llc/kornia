@@ -80,7 +80,6 @@ tf_kornia = kornia.to_tensorflow()
   <div class="dark-light" style="display: block;" align="center">
       <img class="dark-light" width="15%" src="https://raw.githubusercontent.com/ivy-llc/assets/refs/heads/main/assets/logos/ivy-long.svg"/>
   </div>
-  </div>
 </p>
 
 
