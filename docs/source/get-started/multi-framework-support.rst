@@ -67,7 +67,7 @@ So what's happening here? Let's break it down.
     You may be wondering if you'll have to wait for these long initial transpilations to take place each time you start a
     new Python session? The good news is that when a transpilation occurs, Ivy will save the generated source code in the
     local directory, so if the same transpilation is ever attempted again from within the same directory, it will be
-    immediately retrieved and ready to use.
+    immediately retrieved and used.
 
 
 Kornia can be used with JAX and NumPy in the same way:
@@ -110,5 +110,4 @@ From the Ivy Team
 We hope you find using Kornia with NumPy, JAX and TensorFlow useful! Ivy is still very much under development, 
 so if you find any issues/bugs, feel free to raise an issue on the `ivy <https://github.com/ivy-llc/ivy>`_ repository!
 
-To learn more about Ivy, we recommend you to read through the `Get Started <https://ivy.dev/docs/overview/get_started.html>`_ and 
-`Quickstart <https://ivy.dev/docs/demos/quickstart.html>`_ sections of the documentation.
+To learn more about Ivy, we recommend taking a look through our `documentation <https://ivy.dev/docs/>`_.
