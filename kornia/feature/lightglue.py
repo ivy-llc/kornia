@@ -25,6 +25,7 @@ from kornia.core import (
 )
 from kornia.core.check import KORNIA_CHECK
 from kornia.feature.laf import laf_to_three_points, scale_laf
+from kornia.utils._compat import custom_fwd
 
 try:
     from flash_attn.modules.mha import FlashCrossAttention
@@ -41,7 +42,7 @@ def math_clamp(x, min_, max_):  # type: ignore
     return max(min(x, min_), min_)
 
 
-@torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+@custom_fwd(cast_inputs=torch.float32)
 def normalize_keypoints(kpts: Tensor, size: Tensor) -> Tensor:
     if isinstance(size, torch.Size):
         size = Tensor(size)[None]
@@ -650,7 +651,7 @@ class LightGlue(Module):
     def confidence_threshold(self, layer_index: int) -> float:
         """Scaled confidence threshold."""
         threshold = 0.8 + 0.1 * math.exp(-4.0 * layer_index / self.conf.n_layers)
-        return min(max(threshold, 1), 0)
+        return min(max(threshold, 0), 1)
 
     def get_pruning_mask(self, confidences: Tensor, scores: Tensor, layer_index: int) -> Tensor:
         """Mask points which should be removed."""

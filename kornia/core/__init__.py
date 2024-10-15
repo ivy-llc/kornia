@@ -1,3 +1,4 @@
+from . import external
 from ._backend import (
     Device,
     Dtype,
@@ -31,9 +32,11 @@ from ._backend import (
     zeros,
     zeros_like,
 )
+from .module import ImageModule
 from .tensor_wrapper import TensorWrapper  # type: ignore
 
 __all__ = [
+    "external",
     "arange",
     "concatenate",
     "Device",
@@ -66,4 +69,5 @@ __all__ = [
     "diag",
     "TensorWrapper",
     "map_coordinates",
+    "ImageModule",
 ]

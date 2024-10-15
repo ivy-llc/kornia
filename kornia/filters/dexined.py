@@ -9,14 +9,14 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from kornia.core import Module, Tensor, concatenate
+from kornia.core import ImageModule as Module
+from kornia.core import Tensor, concatenate
 from kornia.core.check import KORNIA_CHECK
-from kornia.utils import map_location_to_cpu
 
 url: str = "http://cmp.felk.cvut.cz/~mishkdmy/models/DexiNed_BIPED_10.pth"
 
 
-def weight_init(m: Module) -> None:
+def weight_init(m: nn.Module) -> None:
     if isinstance(m, (nn.Conv2d,)):
         # torch.nn.init.xavier_uniform_(m.weight, gain=1.0)
         torch.nn.init.xavier_normal_(m.weight, gain=1.0)
@@ -107,8 +107,8 @@ class UpConvBlock(Module):
         KORNIA_CHECK(layers is not None, "layers cannot be none")
         self.features = nn.Sequential(*layers)
 
-    def make_deconv_layers(self, in_features: int, up_scale: int) -> list[Module]:
-        layers: list[Module] = []
+    def make_deconv_layers(self, in_features: int, up_scale: int) -> nn.ModuleList:
+        layers = nn.ModuleList([])
         all_pads = [0, 0, 1, 3, 7]
         for i in range(up_scale):
             kernel_size = 2**up_scale
@@ -221,7 +221,7 @@ class DexiNed(Module):
 
     def load_from_file(self, path_file: str) -> None:
         # use torch.hub to load pretrained model
-        pretrained_dict = torch.hub.load_state_dict_from_url(path_file, map_location=map_location_to_cpu)
+        pretrained_dict = torch.hub.load_state_dict_from_url(path_file, map_location=torch.device("cpu"))
         self.load_state_dict(pretrained_dict, strict=True)
         self.eval()
 

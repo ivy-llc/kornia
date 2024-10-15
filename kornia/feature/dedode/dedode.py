@@ -25,6 +25,7 @@ urls: Dict[str, Dict[str, str]] = {
         "B-SO2": "https://github.com/georg-bn/rotation-steerers/releases/download/release-2/B_SO2_Spread_descriptor_setting_C.pth",
         "G-upright": "https://github.com/Parskatt/DeDoDe/releases/download/dedode_pretrained_models/dedode_descriptor_G.pth",
         "G-C4": "https://github.com/georg-bn/rotation-steerers/releases/download/release-2/G_C4_Perm_descriptor_setting_C.pth",
+        "G-SO2": "https://github.com/georg-bn/rotation-steerers/releases/download/release-2/G_SO2_Spread_descriptor_setting_C.pth",
     },
 }
 
@@ -183,7 +184,7 @@ class DeDoDe(Module):
                 Default is 'L-C4-v2', but perhaps it should be 'L-C4-v2'?
             descriptor_weights: The weights to load for the descriptor.
                 One of 'B-upright','G-upright' (original paper, https://arxiv.org/abs/2308.08479),
-                'B-C4', 'B-SO2', 'G-C4' (from steerers, better for rotations, https://arxiv.org/abs/2312.02152).
+                'B-C4', 'B-SO2', 'G-C4', 'G-SO2' (from steerers, better for rotations, https://arxiv.org/abs/2312.02152).
                 Default is 'G-upright'.
             amp_dtype: the dtype to use for the model. One of torch.float16 or torch.float32.
             Default is torch.float16, suitable for CUDA. Use torch.float32 for CPU or MPS
@@ -197,10 +198,10 @@ class DeDoDe(Module):
             amp_dtype=amp_dtype,
         )
         model.detector.load_state_dict(
-            torch.hub.load_state_dict_from_url(urls["detector"][detector_weights], map_location=map_location_to_cpu)
+            torch.hub.load_state_dict_from_url(urls["detector"][detector_weights], map_location=torch.device("cpu"))
         )
         model.descriptor.load_state_dict(
-            torch.hub.load_state_dict_from_url(urls["descriptor"][descriptor_weights], map_location=map_location_to_cpu)
+            torch.hub.load_state_dict_from_url(urls["descriptor"][descriptor_weights], map_location=torch.device("cpu"))
         )
         model.eval()
         return model

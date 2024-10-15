@@ -175,8 +175,9 @@ class AugmentationSequential(TransformMatrixMinIn, ImageSequential):
         ... )
         >>> out = aug_list(input, mask, bbox)
 
-    How to use a dictionary as input with AugmentationSequential? The dictionary should starts with
-    one of the datakey availables.
+    How to use a dictionary as input with AugmentationSequential? The dictionary keys that start with
+    one of the available datakeys will be augmented accordingly. Otherwise, the dictionary item is passed
+    without any augmentation.
 
         >>> import kornia.augmentation as K
         >>> img = torch.randn(1, 3, 256, 256)
@@ -291,7 +292,7 @@ class AugmentationSequential(TransformMatrixMinIn, ImageSequential):
         """
         original_keys = None
         if len(args) == 1 and isinstance(args[0], dict):
-            original_keys, data_keys, args = self._preproc_dict_data(args[0])
+            original_keys, data_keys, args, invalid_data = self._preproc_dict_data(args[0])
 
         # args here should already be `DataType`
         # NOTE: how to right type to: unpacked args <-> tuple of args to unpack
@@ -324,7 +325,10 @@ class AugmentationSequential(TransformMatrixMinIn, ImageSequential):
         outputs = self._arguments_postproc(args, outputs, data_keys=self.transform_op.data_keys)  # type: ignore
 
         if isinstance(original_keys, tuple):
-            return {k: v for v, k in zip(outputs, original_keys)}
+            result = {k: v for v, k in zip(outputs, original_keys)}
+            if invalid_data:
+                result.update(invalid_data)
+            return result
 
         if len(outputs) == 1 and isinstance(outputs, list):
             return outputs[0]
@@ -414,7 +418,7 @@ class AugmentationSequential(TransformMatrixMinIn, ImageSequential):
         # Unpack/handle dictionary args
         original_keys = None
         if len(args) == 1 and isinstance(args[0], dict):
-            original_keys, data_keys, args = self._preproc_dict_data(args[0])
+            original_keys, data_keys, args, invalid_data = self._preproc_dict_data(args[0])
 
         self.transform_op.data_keys = self.transform_op.preproc_datakeys(data_keys)
 
@@ -455,26 +459,84 @@ class AugmentationSequential(TransformMatrixMinIn, ImageSequential):
         self._params = params
 
         if isinstance(original_keys, tuple):
-            return {k: v for v, k in zip(outputs, original_keys)}
+            result = {k: v for v, k in zip(outputs, original_keys)}
+            if invalid_data:
+                result.update(invalid_data)
+            return result
 
         if len(outputs) == 1 and isinstance(outputs, list):
             return outputs[0]
 
         return outputs
 
+    def __call__(
+        self,
+        *inputs: Any,
+        input_names_to_handle: Optional[List[Any]] = None,
+        output_type: str = "tensor",
+        **kwargs: Any,
+    ) -> Any:
+        """Overwrites the __call__ function to handle various inputs.
+
+        Args:
+            input_names_to_handle: List of input names to convert, if None, handle all inputs.
+            output_type: Desired output type ('tensor', 'numpy', or 'pil').
+
+        Returns:
+            Callable: Decorated function with converted input and output types.
+        """
+
+        # Wrap the forward method with the decorator
+        if not self._disable_features:
+            # TODO: Some more behaviour for AugmentationSequential needs to be revisited later
+            # e.g. We convert only images, etc.
+            decorated_forward = self.convert_input_output(
+                input_names_to_handle=input_names_to_handle, output_type=output_type
+            )(super(ImageSequential, self).__call__)
+            _output_image = decorated_forward(*inputs, **kwargs)
+
+            if len(inputs) == 1 and isinstance(inputs[0], dict):
+                original_keys, in_data_keys, inputs, invalid_data = self._preproc_dict_data(inputs[0])
+            else:
+                in_data_keys = kwargs.get("data_keys", self.data_keys)
+            data_keys = self.transform_op.preproc_datakeys(in_data_keys)
+
+            if len(data_keys) > 1 and DataKey.INPUT in data_keys:
+                # NOTE: we may update it later for more supports of drawing boxes, etc.
+                idx = data_keys.index(DataKey.INPUT)
+                if output_type == "tensor":
+                    self._output_image = _output_image
+                    if isinstance(_output_image, dict):
+                        self._output_image[original_keys[idx]] = self._detach_tensor_to_cpu(
+                            _output_image[original_keys[idx]]
+                        )
+                    else:
+                        self._output_image[idx] = self._detach_tensor_to_cpu(_output_image[idx])
+                elif isinstance(_output_image, dict):
+                    self._output_image[original_keys[idx]] = _output_image[original_keys[idx]]
+                else:
+                    self._output_image[idx] = _output_image[idx]
+            else:
+                self._output_image = _output_image
+        else:
+            _output_image = super(ImageSequential, self).__call__(*inputs, **kwargs)
+        return _output_image
+
     def _preproc_dict_data(
         self, data: Dict[str, DataType]
-    ) -> Tuple[Tuple[str, ...], List[DataKey], Tuple[DataType, ...]]:
+    ) -> Tuple[Tuple[str, ...], List[DataKey], Tuple[DataType, ...], Optional[Dict[str, Any]]]:
         if self.data_keys is not None:
             raise ValueError("If you are using a dictionary as input, the data_keys should be None.")
 
         keys = tuple(data.keys())
-        data_keys = self._read_datakeys_from_dict(keys)
+        data_keys, invalid_keys = self._read_datakeys_from_dict(keys)
+        invalid_data = {i: data.pop(i) for i in invalid_keys} if invalid_keys else None
+        keys = tuple(k for k in keys if k not in invalid_keys) if invalid_keys else keys
         data_unpacked = tuple(data.values())
 
-        return keys, data_keys, data_unpacked
+        return keys, data_keys, data_unpacked, invalid_data
 
-    def _read_datakeys_from_dict(self, keys: Sequence[str]) -> List[DataKey]:
+    def _read_datakeys_from_dict(self, keys: Sequence[str]) -> Tuple[List[DataKey], Optional[List[str]]]:
         def retrieve_key(key: str) -> DataKey:
             """Try to retrieve the datakey value by matching `<datakey>*`"""
             # Alias cases, like INPUT, will not be get by the enum iterator.
@@ -492,7 +554,15 @@ class AugmentationSequential(TransformMatrixMinIn, ImageSequential):
                 f"Your input data dictionary keys should start with some of datakey values: {allowed_dk}. Got `{key}`"
             )
 
-        return [DataKey.get(retrieve_key(k)) for k in keys]
+        valid_data_keys = []
+        invalid_keys = []
+        for k in keys:
+            try:
+                valid_data_keys.append(DataKey.get(retrieve_key(k)))
+            except ValueError:
+                invalid_keys.append(k)
+
+        return valid_data_keys, invalid_keys
 
     def _preproc_mask(self, arg: MaskDataType) -> MaskDataType:
         if isinstance(arg, list):

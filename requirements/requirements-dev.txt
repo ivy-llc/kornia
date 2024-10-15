@@ -1,8 +1,13 @@
+accelerate
 coverage
+diffusers
 mypy
 numpy<2
 onnx
+pillow
 pre-commit>=2
-pytest==8.2.2
+pytest==8.3.3
 pytest-timeout
 requests
+setuptools>=61.2  # needed by pytorch dynamo / triton
+transformers

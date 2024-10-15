@@ -1,15 +1,23 @@
 from typing import Tuple
 
 import torch
-from torch import nn
+
+from kornia.core import ImageModule as Module
+from kornia.core import Tensor
 
 
-def rgb_to_yuv(image: torch.Tensor) -> torch.Tensor:
+def rgb_to_yuv(image: Tensor) -> Tensor:
     r"""Convert an RGB image to YUV.
 
     .. image:: _static/img/rgb_to_yuv.png
 
-    The image data is assumed to be in the range of (0, 1).
+    The image data is assumed to be in the range of :math:`(0, 1)`. The range of the output is of
+    :math:`(0, 1)` to luma and the ranges of U and V are :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`,
+    respectively.
+
+    The YUV model adopted here follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Args:
         image: RGB Image to be converted to YUV with shape :math:`(*, 3, H, W)`.
@@ -21,30 +29,36 @@ def rgb_to_yuv(image: torch.Tensor) -> torch.Tensor:
         >>> input = torch.rand(2, 3, 4, 5)
         >>> output = rgb_to_yuv(input)  # 2x3x4x5
     """
-    if not isinstance(image, torch.Tensor):
-        raise TypeError(f"Input type is not a torch.Tensor. Got {type(image)}")
+    if not isinstance(image, Tensor):
+        raise TypeError(f"Input type is not a Tensor. Got {type(image)}")
 
     if len(image.shape) < 3 or image.shape[-3] != 3:
         raise ValueError(f"Input size must have a shape of (*, 3, H, W). Got {image.shape}")
 
-    r: torch.Tensor = image[..., 0, :, :]
-    g: torch.Tensor = image[..., 1, :, :]
-    b: torch.Tensor = image[..., 2, :, :]
+    r: Tensor = image[..., 0, :, :]
+    g: Tensor = image[..., 1, :, :]
+    b: Tensor = image[..., 2, :, :]
 
-    y: torch.Tensor = 0.299 * r + 0.587 * g + 0.114 * b
-    u: torch.Tensor = -0.147 * r - 0.289 * g + 0.436 * b
-    v: torch.Tensor = 0.615 * r - 0.515 * g - 0.100 * b
+    y: Tensor = 0.299 * r + 0.587 * g + 0.114 * b
+    u: Tensor = -0.147 * r - 0.289 * g + 0.436 * b
+    v: Tensor = 0.615 * r - 0.515 * g - 0.100 * b
 
-    out: torch.Tensor = torch.stack([y, u, v], -3)
+    out: Tensor = torch.stack([y, u, v], -3)
 
     return out
 
 
-def rgb_to_yuv420(image: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+def rgb_to_yuv420(image: Tensor) -> Tuple[Tensor, Tensor]:
     r"""Convert an RGB image to YUV 420 (subsampled).
 
-    The image data is assumed to be in the range of (0, 1). Input need to be padded to be evenly divisible by 2
-    horizontal and vertical. This function will output chroma siting (0.5,0.5)
+    Input need to be padded to be evenly divisible by 2 horizontal and vertical.
+
+    The image data is assumed to be in the range of :math:`(0, 1)`. The range of the output is of :math:`(0, 1)` to
+    luma and the ranges of U and V are :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`, respectively.
+
+    The YUV model adopted here follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Args:
         image: RGB Image to be converted to YUV with shape :math:`(*, 3, H, W)`.
@@ -57,8 +71,8 @@ def rgb_to_yuv420(image: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         >>> input = torch.rand(2, 3, 4, 6)
         >>> output = rgb_to_yuv420(input)  # (2x1x4x6, 2x2x2x3)
     """
-    if not isinstance(image, torch.Tensor):
-        raise TypeError(f"Input type is not a torch.Tensor. Got {type(image)}")
+    if not isinstance(image, Tensor):
+        raise TypeError(f"Input type is not a Tensor. Got {type(image)}")
 
     if len(image.shape) < 3 or image.shape[-3] != 3:
         raise ValueError(f"Input size must have a shape of (*, 3, H, W). Got {image.shape}")
@@ -71,11 +85,18 @@ def rgb_to_yuv420(image: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
     return (yuvimage[..., :1, :, :], yuvimage[..., 1:3, :, :].unfold(-2, 2, 2).unfold(-2, 2, 2).mean((-1, -2)))
 
 
-def rgb_to_yuv422(image: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+def rgb_to_yuv422(image: Tensor) -> Tuple[Tensor, Tensor]:
     r"""Convert an RGB image to YUV 422 (subsampled).
 
-    The image data is assumed to be in the range of (0, 1). Input need to be padded to be evenly divisible by 2
-    vertical. This function will output chroma siting (0.5)
+    Input need to be padded to be evenly divisible by 2 vertical.
+
+    The image data is assumed to be in the range of :math:`(0, 1)`. The range of the output is of
+    :math:`(0, 1)` to luma and the ranges of U and V are :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`,
+    respectively.
+
+    The YUV model adopted here follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Args:
         image: RGB Image to be converted to YUV with shape :math:`(*, 3, H, W)`.
@@ -88,8 +109,8 @@ def rgb_to_yuv422(image: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         >>> input = torch.rand(2, 3, 4, 6)
         >>> output = rgb_to_yuv420(input)  # (2x1x4x6, 2x1x4x3)
     """
-    if not isinstance(image, torch.Tensor):
-        raise TypeError(f"Input type is not a torch.Tensor. Got {type(image)}")
+    if not isinstance(image, Tensor):
+        raise TypeError(f"Input type is not a Tensor. Got {type(image)}")
 
     if len(image.shape) < 3 or image.shape[-3] != 3:
         raise ValueError(f"Input size must have a shape of (*, 3, H, W). Got {image.shape}")
@@ -102,10 +123,15 @@ def rgb_to_yuv422(image: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
     return (yuvimage[..., :1, :, :], yuvimage[..., 1:3, :, :].unfold(-1, 2, 2).mean(-1))
 
 
-def yuv_to_rgb(image: torch.Tensor) -> torch.Tensor:
+def yuv_to_rgb(image: Tensor) -> Tensor:
     r"""Convert an YUV image to RGB.
 
-    The image data is assumed to be in the range of (0, 1) for luma and (-0.5, 0.5) for chroma.
+    The image data is assumed to be in the range of :math:`(0, 1)` for luma (Y). The ranges of U and V are
+    :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`, respectively.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Args:
         image: YUV Image to be converted to RGB with shape :math:`(*, 3, H, W)`.
@@ -117,31 +143,36 @@ def yuv_to_rgb(image: torch.Tensor) -> torch.Tensor:
         >>> input = torch.rand(2, 3, 4, 5)
         >>> output = yuv_to_rgb(input)  # 2x3x4x5
     """
-    if not isinstance(image, torch.Tensor):
-        raise TypeError(f"Input type is not a torch.Tensor. Got {type(image)}")
+    if not isinstance(image, Tensor):
+        raise TypeError(f"Input type is not a Tensor. Got {type(image)}")
 
-    if len(image.shape) < 3 or image.shape[-3] != 3:
+    if image.dim() < 3 or image.shape[-3] != 3:
         raise ValueError(f"Input size must have a shape of (*, 3, H, W). Got {image.shape}")
 
-    y: torch.Tensor = image[..., 0, :, :]
-    u: torch.Tensor = image[..., 1, :, :]
-    v: torch.Tensor = image[..., 2, :, :]
+    y: Tensor = image[..., 0, :, :]
+    u: Tensor = image[..., 1, :, :]
+    v: Tensor = image[..., 2, :, :]
 
-    r: torch.Tensor = y + 1.14 * v  # coefficient for g is 0
-    g: torch.Tensor = y + -0.396 * u - 0.581 * v
-    b: torch.Tensor = y + 2.029 * u  # coefficient for b is 0
+    r: Tensor = y + 1.14 * v  # coefficient for g is 0
+    g: Tensor = y + -0.396 * u - 0.581 * v
+    b: Tensor = y + 2.029 * u  # coefficient for b is 0
 
-    out: torch.Tensor = torch.stack([r, g, b], -3)
+    out: Tensor = torch.stack([r, g, b], -3)
 
     return out
 
 
-def yuv420_to_rgb(imagey: torch.Tensor, imageuv: torch.Tensor) -> torch.Tensor:
+def yuv420_to_rgb(imagey: Tensor, imageuv: Tensor) -> Tensor:
     r"""Convert an YUV420 image to RGB.
 
-    The image data is assumed to be in the range of (0, 1) for luma and (-0.5, 0.5) for chroma.
     Input need to be padded to be evenly divisible by 2 horizontal and vertical.
-    This function assumed chroma siting is (0.5, 0.5)
+
+    The image data is assumed to be in the range of :math:`(0, 1)` for luma (Y). The ranges of U and V are
+    :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`, respectively.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Args:
         imagey: Y (luma) Image plane to be converted to RGB with shape :math:`(*, 1, H, W)`.
@@ -155,11 +186,11 @@ def yuv420_to_rgb(imagey: torch.Tensor, imageuv: torch.Tensor) -> torch.Tensor:
         >>> inputuv = torch.rand(2, 2, 2, 3)
         >>> output = yuv420_to_rgb(inputy, inputuv)  # 2x3x4x6
     """
-    if not isinstance(imagey, torch.Tensor):
-        raise TypeError(f"Input type is not a torch.Tensor. Got {type(imagey)}")
+    if not isinstance(imagey, Tensor):
+        raise TypeError(f"Input type is not a Tensor. Got {type(imagey)}")
 
-    if not isinstance(imageuv, torch.Tensor):
-        raise TypeError(f"Input type is not a torch.Tensor. Got {type(imageuv)}")
+    if not isinstance(imageuv, Tensor):
+        raise TypeError(f"Input type is not a Tensor. Got {type(imageuv)}")
 
     if len(imagey.shape) < 3 or imagey.shape[-3] != 1:
         raise ValueError(f"Input imagey size must have a shape of (*, 1, H, W). Got {imagey.shape}")
@@ -187,11 +218,17 @@ def yuv420_to_rgb(imagey: torch.Tensor, imageuv: torch.Tensor) -> torch.Tensor:
     return yuv_to_rgb(yuv444image)
 
 
-def yuv422_to_rgb(imagey: torch.Tensor, imageuv: torch.Tensor) -> torch.Tensor:
+def yuv422_to_rgb(imagey: Tensor, imageuv: Tensor) -> Tensor:
     r"""Convert an YUV422 image to RGB.
 
-    The image data is assumed to be in the range of (0, 1) for luma and (-0.5, 0.5) for chroma.
-    Input need to be padded to be evenly divisible by 2 vertical. This function assumed chroma siting is (0.5)
+    Input need to be padded to be evenly divisible by 2 vertical.
+
+    The image data is assumed to be in the range of :math:`(0, 1)` for luma (Y). The ranges of U and V are
+    :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`, respectively.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Args:
         imagey: Y (luma) Image plane to be converted to RGB with shape :math:`(*, 1, H, W)`.
@@ -205,11 +242,11 @@ def yuv422_to_rgb(imagey: torch.Tensor, imageuv: torch.Tensor) -> torch.Tensor:
         >>> inputuv = torch.rand(2, 2, 2, 3)
         >>> output = yuv420_to_rgb(inputy, inputuv)  # 2x3x4x5
     """
-    if not isinstance(imagey, torch.Tensor):
-        raise TypeError(f"Input type is not a torch.Tensor. Got {type(imagey)}")
+    if not isinstance(imagey, Tensor):
+        raise TypeError(f"Input type is not a Tensor. Got {type(imagey)}")
 
-    if not isinstance(imageuv, torch.Tensor):
-        raise TypeError(f"Input type is not a torch.Tensor. Got {type(imageuv)}")
+    if not isinstance(imageuv, Tensor):
+        raise TypeError(f"Input type is not a Tensor. Got {type(imageuv)}")
 
     if len(imagey.shape) < 3 or imagey.shape[-3] != 1:
         raise ValueError(f"Input imagey size must have a shape of (*, 1, H, W). Got {imagey.shape}")
@@ -231,10 +268,14 @@ def yuv422_to_rgb(imagey: torch.Tensor, imageuv: torch.Tensor) -> torch.Tensor:
     return yuv_to_rgb(yuv444image)
 
 
-class RgbToYuv(nn.Module):
+class RgbToYuv(Module):
     r"""Convert an image from RGB to YUV.
 
-    The image data is assumed to be in the range of (0, 1).
+    The image data is assumed to be in the range of :math:`(0, 1)`.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Returns:
         YUV version of the image.
@@ -252,14 +293,20 @@ class RgbToYuv(nn.Module):
         [1] https://es.wikipedia.org/wiki/YUV#RGB_a_Y'UV
     """
 
-    def forward(self, input: torch.Tensor) -> torch.Tensor:
+    def forward(self, input: Tensor) -> Tensor:
         return rgb_to_yuv(input)
 
 
-class RgbToYuv420(nn.Module):
+class RgbToYuv420(Module):
     r"""Convert an image from RGB to YUV420.
 
-    The image data is assumed to be in the range of (0, 1). Width and Height evenly divisible by 2.
+    Width and Height evenly divisible by 2.
+
+    The image data is assumed to be in the range of :math:`(0, 1)`.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Returns:
         YUV420 version of the image.
@@ -277,14 +324,20 @@ class RgbToYuv420(nn.Module):
         [1] https://es.wikipedia.org/wiki/YUV#RGB_a_Y'UV
     """
 
-    def forward(self, yuvinput: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:  # skipcq: PYL-R0201
+    def forward(self, yuvinput: Tensor) -> Tuple[Tensor, Tensor]:  # skipcq: PYL-R0201
         return rgb_to_yuv420(yuvinput)
 
 
-class RgbToYuv422(nn.Module):
+class RgbToYuv422(Module):
     r"""Convert an image from RGB to YUV422.
 
-    The image data is assumed to be in the range of (0, 1). Width evenly disvisible by 2.
+    Width must be evenly disvisible by 2.
+
+    The image data is assumed to be in the range of :math:`(0, 1)`.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Returns:
         YUV422 version of the image.
@@ -302,14 +355,19 @@ class RgbToYuv422(nn.Module):
         [1] https://es.wikipedia.org/wiki/YUV#RGB_a_Y'UV
     """
 
-    def forward(self, yuvinput: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:  # skipcq: PYL-R0201
+    def forward(self, yuvinput: Tensor) -> Tuple[Tensor, Tensor]:  # skipcq: PYL-R0201
         return rgb_to_yuv422(yuvinput)
 
 
-class YuvToRgb(nn.Module):
+class YuvToRgb(Module):
     r"""Convert an image from YUV to RGB.
 
-    The image data is assumed to be in the range of (0, 1) for luma and (-0.5, 0.5) for chroma.
+    The image data is assumed to be in the range of :math:`(0, 1)` for luma (Y). The ranges of U and V are
+    :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`, respectively.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Returns:
         RGB version of the image.
@@ -324,15 +382,21 @@ class YuvToRgb(nn.Module):
         >>> output = rgb(input)  # 2x3x4x5
     """
 
-    def forward(self, input: torch.Tensor) -> torch.Tensor:
+    def forward(self, input: Tensor) -> Tensor:
         return yuv_to_rgb(input)
 
 
-class Yuv420ToRgb(nn.Module):
+class Yuv420ToRgb(Module):
     r"""Convert an image from YUV to RGB.
 
-    The image data is assumed to be in the range of (0, 1) for luma and (-0.5, 0.5) for chroma.
-    Width and Height evenly divisible by 2.
+    Width and Height must be evenly divisible by 2.
+
+    The image data is assumed to be in the range of :math:`(0, 1)` for luma (Y). The ranges of U and V are
+    :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`, respectively.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Returns:
         RGB version of the image.
@@ -349,15 +413,21 @@ class Yuv420ToRgb(nn.Module):
         >>> output = rgb(inputy, inputuv)  # 2x3x4x6
     """
 
-    def forward(self, inputy: torch.Tensor, inputuv: torch.Tensor) -> torch.Tensor:  # skipcq: PYL-R0201
+    def forward(self, inputy: Tensor, inputuv: Tensor) -> Tensor:  # skipcq: PYL-R0201
         return yuv420_to_rgb(inputy, inputuv)
 
 
-class Yuv422ToRgb(nn.Module):
+class Yuv422ToRgb(Module):
     r"""Convert an image from YUV to RGB.
 
-    The image data is assumed to be in the range of (0, 1) for luma and (-0.5, 0.5) for chroma.
-    Width evenly divisible by 2.
+    Width must be evenly divisible by 2.
+
+    The image data is assumed to be in the range of :math:`(0, 1)` for luma (Y). The ranges of U and V are
+    :math:`(-0.436, 0.436)` and :math:`(-0.615, 0.615)`, respectively.
+
+    YUV formula follows M/PAL values (see
+    `BT.470-5 <https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-5-199802-S!!PDF-E.pdf>`_, Table 2,
+    items 2.5 and 2.6).
 
     Returns:
         RGB version of the image.
@@ -374,5 +444,5 @@ class Yuv422ToRgb(nn.Module):
         >>> output = rgb(inputy, inputuv)  # 2x3x4x6
     """
 
-    def forward(self, inputy: torch.Tensor, inputuv: torch.Tensor) -> torch.Tensor:  # skipcq: PYL-R0201
+    def forward(self, inputy: Tensor, inputuv: Tensor) -> Tensor:  # skipcq: PYL-R0201
         return yuv422_to_rgb(inputy, inputuv)

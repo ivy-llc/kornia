@@ -17,4 +17,5 @@ Interactive Demo
 
 .. raw:: html
 
-   <gradio-app space="kornia/line-segment-matching"></gradio-app>
+   <gradio-app src="kornia/line-segment-matching"></gradio-app>
+   <gradio-app src="kornia/Line-Fitting"></gradio-app>
