@@ -155,9 +155,11 @@ tf_kornia = kornia.to_tensorflow()
 
 <p align="center">
   Powered by 
-  <div class="dark-light" style="display: block;" align="center">
+  <a href="https://github.com/ivy-llc/ivy" target="_blank">
+    <div class="dark-light" style="display: block;" align="center">
       <img class="dark-light" width="15%" src="https://raw.githubusercontent.com/ivy-llc/assets/refs/heads/main/assets/logos/ivy-long.svg"/>
-  </div>
+    </div>
+  </a>
 </p>
 
 ## Call For Contributors

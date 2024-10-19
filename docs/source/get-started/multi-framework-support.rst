@@ -1,8 +1,10 @@
 .. raw:: html
 
-   <div style="display: block;" align="center">
-       <img class="dark-light" width="30%" src="https://raw.githubusercontent.com/ivy-llc/assets/refs/heads/main/assets/logos/ivy-long.svg"/>
-   </div>
+   <a href="https://github.com/ivy-llc/ivy" target="_blank">
+       <div style="display: block;" align="center">
+           <img class="dark-light" width="30%" src="https://raw.githubusercontent.com/ivy-llc/assets/refs/heads/main/assets/logos/ivy-long.svg"/>
+       </div>
+   </a>
    <br>
 
 Multi-Framework Support
@@ -99,6 +101,10 @@ Limitations
 
 * Converting Kornia to TensorFlow or JAX works for both functions and classes, but converting to NumPy only supports functions.
 
+* Transpilation does not currently work with custom kernels, such as flash attention.
+
+* Certain stateful classes cannot currently be transpiled, such as optimizers (torch.optim.Adam, etc.), trainers, and data loaders.
+
 * Compatibility with native compilers (*jax.jit* and *tf.function*) is somewhat limited with transpiled versions of Kornia,
   particularly compared with *torch.compile* on standard Kornia. Improving compatibility with these is one of the key areas of
   focus for the current development of Ivy.
@@ -108,6 +114,7 @@ From the Ivy Team
 -----------------
 
 We hope you find using Kornia with NumPy, JAX and TensorFlow useful! Ivy is still very much under development, 
-so if you find any issues/bugs, feel free to raise an issue on the `ivy <https://github.com/ivy-llc/ivy>`_ repository!
+so if you find any issues/bugs, feel free to raise an issue on the `ivy <https://github.com/ivy-llc/ivy>`_ repository.
+We'd also really appreciate a star, if you'd like to show your support!
 
 To learn more about Ivy, we recommend taking a look through our `documentation <https://ivy.dev/docs/>`_.
