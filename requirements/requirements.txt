@@ -1,4 +1,4 @@
-ivy>=0.0.9.12
+ivy>=0.0.9.13
 kornia_rs>=0.1.0
 packaging
 torch>=1.9.1
