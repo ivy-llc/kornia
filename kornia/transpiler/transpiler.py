@@ -46,7 +46,7 @@ def to_numpy():
         >>> gray = np_kornia.color.gray.rgb_to_grayscale(input)
 
     Note:
-        Ivy currently only supports transpiling functions (not classes) to NumPy.
+        Ivy currently only supports transpiling functions and classes (not trainable modules) to NumPy.
     """
     return ivy.transpile(
         kornia,

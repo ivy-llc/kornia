@@ -146,7 +146,7 @@ dslv_op.save("Kornia-enhanced.jpg")
 
 ## Multi-framework support
 
-You can now use Kornia with [NumPy](https://numpy.org/), [TensorFlow](https://www.tensorflow.org/), and [JAX](https://jax.readthedocs.io/en/latest/index.html). See [Multi-Framework Support](docs/source/get-started/multi-framework-support.rst) for more details.
+You can now use Kornia with [TensorFlow](https://www.tensorflow.org/), [JAX](https://jax.readthedocs.io/en/latest/index.html), and [NumPy](https://numpy.org/). See [Multi-Framework Support](docs/source/get-started/multi-framework-support.rst) for more details.
 
 ```python
 import kornia
