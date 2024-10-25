@@ -98,7 +98,7 @@ Kornia can be used with JAX and NumPy in the same way:
 Limitations
 -----------
 
-* Converting Kornia to TensorFlow or JAX works for both functions and classes, but converting to NumPy only supports functions.
+* Converting Kornia to TensorFlow or JAX works for functions, classes and trainable modules; converting to NumPy supports functions and classes, but not trainable modules.
 
 * Transpilation does not currently work with custom kernels, such as flash attention.
 
