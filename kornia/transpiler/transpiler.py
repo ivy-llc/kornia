@@ -31,9 +31,9 @@ def to_numpy():
     """Convert Kornia to NumPy.
 
     Transpiles the Kornia library to NumPy using [ivy](https://github.com/ivy-llc/ivy). The transpilation process 
-    occurs lazily, so the transpilation on a given kornia function will only occur when it's called 
-    for the first time. This will make the initial call of any function in the transpiled library 
-    slower, but subsequent calls should be as fast as expected.
+    occurs lazily, so the transpilation on a given kornia function/class will only occur when it's called or instantiated
+    for the first time. This will make any functions/classes slow when being used for the first time, but any
+    subsequent uses should be as fast as expected.
 
     Return:
         The Kornia library transpiled to NumPy
