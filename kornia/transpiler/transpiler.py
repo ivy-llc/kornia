@@ -11,7 +11,7 @@ def to_jax():
     subsequent uses should be as fast as expected.
 
     Return:
-        The kornia library transpiled to JAX
+        The Kornia library transpiled to JAX
 
     Example:
         >>> import kornia
@@ -36,7 +36,7 @@ def to_numpy():
     slower, but subsequent calls should be as fast as expected.
 
     Return:
-        The kornia library transpiled to NumPy
+        The Kornia library transpiled to NumPy
 
     Example:
         >>> import kornia
@@ -64,7 +64,7 @@ def to_tensorflow():
     subsequent uses should be as fast as expected.
 
     Return:
-        The kornia library transpiled to TensorFlow
+        The Kornia library transpiled to TensorFlow
 
     Example:
         >>> import kornia
