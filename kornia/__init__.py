@@ -25,7 +25,7 @@ from . import (
 )
 
 # Multi-framework support using ivy
-from .transpiler import to_jax, to_numpy, to_tensorflow
+from .transpiler import set_backend, to_jax, to_numpy, to_tensorflow
 
 # NOTE: we are going to expose to top level very few things
 from kornia.constants import pi
